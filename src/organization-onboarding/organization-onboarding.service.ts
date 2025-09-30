@@ -1,0 +1,32 @@
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+
+@Injectable()
+export class OrganizationOnboardingService {
+  constructor(private prisma: PrismaService) {}
+
+  async onboardOrganization() {
+    return this.prisma.$transaction(async (tx) => {
+      const organization = await tx.organization.create({
+        data: {
+          name: 'Test Organization',
+          supportEmail: 'support@test.com',
+        },
+      });
+
+      const user = await tx.user.create({
+        data: {
+          email: 'firstuser@test.com',
+          organization: {
+            connect: {
+              id: organization.id,
+            },
+          },
+          name: 'First User',
+        },
+      });
+
+      return { organization, user };
+    });
+  }
+}
