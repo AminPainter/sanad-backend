@@ -5,9 +5,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { OrganizationOnboardingModule } from 'src/organization-onboarding/organization-onboarding.module';
+import { TicketModule } from 'src/ticket/ticket.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), PrismaModule, OrganizationOnboardingModule],
+  imports: [
+    ConfigModule.forRoot(),
+    PrismaModule,
+    OrganizationOnboardingModule,
+    TicketModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
