@@ -15,7 +15,7 @@ datasource db {
 }
 
 model Organization {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(cuid())
   supportEmail String   @unique
   name         String
   users        User[]
@@ -26,14 +26,14 @@ model User {
   id             String       @id @default(cuid())
   email          String       @unique
   name           String?
-  organizationId Int
+  organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id])
   Ticket         Ticket[]
 }
 
 model Ticket {
   id             String       @id @default(cuid())
-  organizationId Int
+  organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id])
 
   title       String

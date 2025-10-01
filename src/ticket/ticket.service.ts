@@ -1,18 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateTicketDto } from './ticket.validation';
+import { TicketRepository } from './ticket.repository';
 
 @Injectable()
 export class TicketService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private ticketRepository: TicketRepository,
+  ) {}
 
-  createTicket() {
-    return this.prisma.ticket.create({
-      data: {
-        title: 'Sample Ticket',
-        description: 'This is a sample ticket',
-        organizationId: 1,
-      },
-    });
+  createTicket(createTicketDto: CreateTicketDto, organizationId: string) {
+    return this.ticketRepository.createTicket(createTicketDto, organizationId);
   }
 
   getTicketsPaginated() {

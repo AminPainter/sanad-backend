@@ -1,10 +1,9 @@
 import { Controller, Post, Req, UseGuards } from '@nestjs/common';
-import { type Request } from 'express';
 
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
-import { User } from 'generated/prisma';
 import { SkipJwtAuth } from './auth.decorator';
+import { type AuthenticatedRequest } from 'src/express/express.types';
 
 @Controller('/auth')
 export class AuthController {
@@ -13,8 +12,8 @@ export class AuthController {
   @SkipJwtAuth()
   @UseGuards(LocalAuthGuard)
   @Post('/login')
-  async login(@Req() req: Request) {
-    const user = req.user as User;
+  async login(@Req() req: AuthenticatedRequest) {
+    const user = req.user;
     const tokens = await this.authService.generateJwtForAuthenticatedUser(user);
     return { user, tokens };
   }
