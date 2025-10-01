@@ -7,7 +7,7 @@ CREATE TABLE "Organization" (
 
 -- CreateTable
 CREATE TABLE "User" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" TEXT NOT NULL PRIMARY KEY,
     "email" TEXT NOT NULL,
     "name" TEXT,
     "organizationId" INTEGER NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE "Ticket" (
     "description" TEXT,
     "status" TEXT NOT NULL DEFAULT 'OPEN',
     "priority" TEXT NOT NULL DEFAULT 'MEDIUM',
-    "assignedToId" INTEGER,
+    "assignedToId" TEXT,
     "firstResponseAt" DATETIME,
     "expectedResolutionAt" DATETIME,
     "resolvedAt" DATETIME,

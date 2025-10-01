@@ -23,7 +23,7 @@ model Organization {
 }
 
 model User {
-  id             Int          @id @default(autoincrement())
+  id             String       @id @default(cuid())
   email          String       @unique
   name           String?
   organizationId Int
@@ -42,8 +42,8 @@ model Ticket {
   status   TicketStatus   @default(OPEN)
   priority TicketPriority @default(MEDIUM)
 
-  assignedToId Int?
-  assignedTo   User? @relation(fields: [assignedToId], references: [id])
+  assignedToId String?
+  assignedTo   User?   @relation(fields: [assignedToId], references: [id])
 
   firstResponseAt      DateTime?
   expectedResolutionAt DateTime?
