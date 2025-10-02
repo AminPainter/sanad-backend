@@ -50,6 +50,9 @@ model Ticket {
   assignedToId String?
   assignedTo   User?   @relation(fields: [assignedToId], references: [id])
 
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id])
+
   firstResponseAt      DateTime?
   expectedResolutionAt DateTime?
   resolvedAt           DateTime?
@@ -83,4 +86,6 @@ model Customer {
   meta           Json?
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
+
+  tickets Ticket[]
 }
