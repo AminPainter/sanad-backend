@@ -1,10 +1,10 @@
 import { Controller, Get, Param, Post, Query } from '@nestjs/common';
-import { ConnectEmailAccountService } from './services/connect-email-account.service';
+import { ConnectEmailAccountService } from '../services/connect-email-account.service';
 import {
   ConnectEmailAccountParamsDto,
   HandleEmailAccountConnectionCallbackParamsDto,
   HandleEmailAccountConnectionCallbackQueryDto,
-} from './email-account.validation';
+} from '../validations/email-account.validation';
 import { SkipJwtAuth } from 'src/auth/auth.decorator';
 
 @Controller('/email-accounts')

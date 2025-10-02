@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TEmailProvider } from '../email-account.types';
+import { TEmailProvider } from '../types/email-account.types';
 import { EmailProviderFactory } from '../email-providers/email-provider.factory';
 
 @Injectable()
