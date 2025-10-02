@@ -10,9 +10,7 @@ export class TicketRepository {
     return this.prisma.ticket.create({
       data: {
         ...data,
-        organization: {
-          connect: { id: organizationId },
-        },
+        organizationId,
       },
     });
   }

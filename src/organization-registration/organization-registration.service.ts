@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class OrganizationOnboardingService {
+export class OrganizationRegistrationService {
   constructor(private prisma: PrismaService) {}
 
-  async onboardOrganization() {
+  async registerOrganization() {
     return this.prisma.$transaction(async (tx) => {
       const organization = await tx.organization.create({
         data: {
