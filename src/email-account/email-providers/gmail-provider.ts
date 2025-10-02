@@ -1,10 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Credentials, OAuth2Client } from 'google-auth-library';
+import { google } from 'googleapis';
 
 import { IEmailProvider } from './email-provider.interface';
 
 const REQUIRED_SCOPES = [
   'https://www.googleapis.com/auth/userinfo.profile',
+  'https://www.googleapis.com/auth/userinfo.email',
   'https://www.googleapis.com/auth/gmail.readonly',
 ];
 
@@ -20,21 +22,34 @@ export class GmailProvider implements IEmailProvider {
     });
   }
 
-  getOAuthUrl(): string {
+  getOAuthUrl(params: {
+    redirectUrl: string;
+    organizationId: string;
+    userId: string;
+  }): string {
+    const { redirectUrl, organizationId, userId } = params;
+
     return this.oauthClient.generateAuthUrl({
       access_type: 'offline',
       prompt: 'consent',
       scope: REQUIRED_SCOPES,
+      state: JSON.stringify({
+        redirectUrl,
+        organizationId,
+        userId,
+      }),
     });
   }
 
   async getUserCredentials(code: string) {
     const { tokens: credentials } = await this.oauthClient.getToken(code);
     const validatedCredentials = this.validateCredentials(credentials);
+    const profile = await this.fetchUserProfile(credentials);
 
     return {
       accessToken: validatedCredentials.accessToken,
       refreshToken: validatedCredentials.refreshToken,
+      emailAddress: profile.email!,
     };
   }
 
@@ -65,5 +80,19 @@ export class GmailProvider implements IEmailProvider {
         'The provided scopes do not include all required scopes.',
       );
     }
+  }
+
+  private async fetchUserProfile(credentials: Credentials) {
+    const { data } = await google
+      .oauth2({
+        auth: new OAuth2Client({ credentials }),
+        version: 'v2',
+      })
+      .userinfo.get();
+
+    return {
+      name: data.name,
+      email: data.email,
+    };
   }
 }

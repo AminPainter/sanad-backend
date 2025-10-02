@@ -1,6 +1,13 @@
 export interface IEmailProvider {
-  getOAuthUrl(): string;
-  getUserCredentials(
-    code: string,
-  ): Promise<{ accessToken: string; refreshToken: string }>;
+  getOAuthUrl(params: {
+    redirectUrl: string;
+    organizationId: string;
+    userId: string;
+  }): string;
+
+  getUserCredentials(code: string): Promise<{
+    accessToken: string;
+    refreshToken: string;
+    emailAddress: string;
+  }>;
 }
