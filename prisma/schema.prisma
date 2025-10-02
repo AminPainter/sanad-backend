@@ -15,11 +15,14 @@ datasource db {
 }
 
 model Organization {
-  id           String   @id @default(cuid())
-  supportEmail String   @unique
+  id           String     @id @default(cuid())
+  supportEmail String     @unique
   name         String
   users        User[]
   Ticket       Ticket[]
+  customers    Customer[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 }
 
 model User {
@@ -29,6 +32,8 @@ model User {
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id])
   Ticket         Ticket[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }
 
 model Ticket {
@@ -65,4 +70,17 @@ enum TicketPriority {
   MEDIUM
   HIGH
   URGENT
+}
+
+model Customer {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  externalId     String?
+  name           String?
+  email          String?
+  phone          String?
+  meta           Json?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }

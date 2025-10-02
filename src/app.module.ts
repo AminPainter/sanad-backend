@@ -8,6 +8,7 @@ import { TicketModule } from 'src/ticket/ticket.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ZodValidationPipe } from 'nestjs-zod';
+import { CustomerModule } from './customer/customer.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ZodValidationPipe } from 'nestjs-zod';
     OrganizationRegistrationModule,
     TicketModule,
     AuthModule,
+    CustomerModule,
   ],
   providers: [
     {
