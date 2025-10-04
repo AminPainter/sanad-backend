@@ -23,6 +23,7 @@ export class GmailClient {
       userId: 'me',
       maxResults: 10,
       q: 'is:unread',
+      labelIds: ['INBOX'],
     });
 
     return emails || [];
