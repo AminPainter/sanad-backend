@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 
-import { EmailIngestionController } from './controllers/email-ingestion.controller';
-import { EmailIngestionService } from './services/email-ingestion.service';
-import { CreateTicketFromEmailUseCase } from './create-ticket-from-email.use-case';
+import { EmailIngestionController } from './controllers/email-ticket-automation.controller';
+import { EmailTicketAutomationService } from './services/email-ticket-automation.service';
+import { CreateTicketFromEmail } from './services/create-ticket-from-email';
 
 import { EmailAccountModule } from '@/features/email-account/email-account.module';
 import { EmailReaderModule } from '@/features/email-reader/email-reader.module';
@@ -16,7 +16,7 @@ import { CustomerModule } from '@/features/customer/customer.module';
     TicketModule,
     CustomerModule,
   ],
-  providers: [EmailIngestionService, CreateTicketFromEmailUseCase],
+  providers: [EmailTicketAutomationService, CreateTicketFromEmail],
   controllers: [EmailIngestionController],
 })
 export class EmailIngestionModule {}

@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateTicketFromEmailUseCase } from '../create-ticket-from-email.use-case';
+import { CreateTicketFromEmail } from './create-ticket-from-email';
 
 import { EmailAccountRepository } from '@/features/email-account/repositories/email-account.repository';
 import { EmailReaderFactory } from '@/features/email-reader/factories/email-reader.factory';
 
 @Injectable()
-export class EmailIngestionService {
+export class EmailTicketAutomationService {
   constructor(
     private emailAccountRepository: EmailAccountRepository,
     private emailReaderFactory: EmailReaderFactory,
-    private createTicketFromEmailUseCase: CreateTicketFromEmailUseCase,
+    private createTicketFromEmailUseCase: CreateTicketFromEmail,
   ) {}
 
   async ingest(organizationId: string) {

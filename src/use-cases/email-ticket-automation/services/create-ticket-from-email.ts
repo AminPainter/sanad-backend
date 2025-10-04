@@ -5,7 +5,7 @@ import { TicketRepository } from '@/features/ticket/ticket.repository';
 import { IInboundEmail } from '@/features/email-reader/interfaces/inbound-email.interface';
 
 @Injectable()
-export class CreateTicketFromEmailUseCase {
+export class CreateTicketFromEmail {
   constructor(
     private customerRepository: CustomerRepository,
     private ticketRepository: TicketRepository,
