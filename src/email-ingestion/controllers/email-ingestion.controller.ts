@@ -7,7 +7,7 @@ export class EmailIngestionController {
   constructor(private emailIngestionService: EmailIngestionService) {}
 
   @Post('/trigger-email-ingestion-job')
-  ping(@Req() req: AuthenticatedRequest) {
+  triggerEmailIngestionJob(@Req() req: AuthenticatedRequest) {
     return this.emailIngestionService.ingest(req.user.organizationId);
   }
 }

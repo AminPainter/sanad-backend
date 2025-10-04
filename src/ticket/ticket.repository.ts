@@ -14,4 +14,14 @@ export class TicketRepository {
       },
     });
   }
+
+  getTicketsPaginated(organizationId: string) {
+    return this.prisma.ticket.findMany({
+      take: 10,
+      skip: 0,
+      where: {
+        organizationId,
+      },
+    });
+  }
 }

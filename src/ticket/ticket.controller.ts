@@ -19,7 +19,7 @@ export class TicketController {
   }
 
   @Get('/')
-  getTickets() {
-    return this.ticketService.getTicketsPaginated();
+  getTickets(@Req() req: AuthenticatedRequest) {
+    return this.ticketService.getTicketsPaginated(req.user.organizationId);
   }
 }
