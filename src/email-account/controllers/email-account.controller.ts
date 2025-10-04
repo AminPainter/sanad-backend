@@ -23,14 +23,14 @@ import { type Response } from 'express';
 export class EmailAccountController {
   constructor(private connectEmailAccountService: ConnectEmailAccountService) {}
 
-  @Post('/:provider/connect')
+  @Post('/:partner/connect')
   connectEmailAccount(
     @Req() req: AuthenticatedRequest,
     @Param() params: ConnectEmailAccountParamsDto,
     @Body() body: ConnectEmailAccountBodyDto,
   ) {
     const connectionUrl = this.connectEmailAccountService.connect(
-      params.provider,
+      params.partner,
       {
         organizationId: req.user.organizationId,
         userId: req.user.id,
@@ -41,14 +41,14 @@ export class EmailAccountController {
   }
 
   @SkipJwtAuth()
-  @Get('/:provider/callback')
+  @Get('/:partner/callback')
   async handleEmailAccountConnectionCallback(
     @Param() params: HandleEmailAccountConnectionCallbackParamsDto,
     @Query() query: HandleEmailAccountConnectionCallbackQueryDto,
     @Res() res: Response,
   ) {
     await this.connectEmailAccountService.handleConnectionCallback(
-      params.provider,
+      params.partner,
       query.code,
       query.state,
     );

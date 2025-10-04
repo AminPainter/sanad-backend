@@ -1,17 +1,18 @@
 import { Module } from '@nestjs/common';
 import { EmailAccountController } from './controllers/email-account.controller';
 import { ConnectEmailAccountService } from './services/connect-email-account.service';
-import { EmailProviderFactory } from './email-providers/email-provider.factory';
-import { GmailProvider } from './email-providers/gmail-provider';
 import { EmailAccountRepository } from './repositories/email-account.repository';
+import { EmailConnectorFactory } from './email-connectors/email-connector.factory';
+import { GmailConnector } from './email-connectors/gmail-connector';
 
 @Module({
   controllers: [EmailAccountController],
   providers: [
     EmailAccountRepository,
     ConnectEmailAccountService,
-    EmailProviderFactory,
-    GmailProvider,
+    EmailConnectorFactory,
+    GmailConnector,
   ],
+  exports: [EmailAccountRepository],
 })
 export class EmailAccountModule {}

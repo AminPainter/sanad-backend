@@ -1,15 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { TEmailProvider } from '../types/email-account.types';
+import { TEmailPartner } from 'src/email-partner/types/email-partner.types';
 
 @Injectable()
 export class EmailAccountRepository {
   constructor(private prisma: PrismaService) {}
 
+  findAllForOrganization(organizationId: string) {
+    return this.prisma.emailAccount.findMany({
+      where: {
+        organizationId,
+      },
+    });
+  }
+
   upsert(
     data: {
       email: string;
-      provider: TEmailProvider;
+      partner: TEmailPartner;
       accessToken: string;
       refreshToken: string;
       isActive: boolean;
@@ -18,7 +26,7 @@ export class EmailAccountRepository {
     organizationId: string,
     connectedById: string,
   ) {
-    const { email, provider, accessToken, refreshToken, isActive, meta } = data;
+    const { email, partner, accessToken, refreshToken, isActive, meta } = data;
     return this.prisma.emailAccount.upsert({
       where: {
         organizationId_email: {
@@ -36,7 +44,7 @@ export class EmailAccountRepository {
       create: {
         organizationId,
         email,
-        provider,
+        partner,
         accessToken,
         refreshToken,
         connectedById,

@@ -1,4 +1,4 @@
-export interface IEmailProvider {
+export interface IEmailConnector {
   getOAuthUrl(params: {
     redirectUrl: string;
     organizationId: string;

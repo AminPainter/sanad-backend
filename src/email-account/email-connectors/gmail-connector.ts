@@ -2,17 +2,17 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Credentials, OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
 
-import { IEmailProvider } from './email-provider.interface';
-
-const REQUIRED_SCOPES = [
-  'https://www.googleapis.com/auth/userinfo.profile',
-  'https://www.googleapis.com/auth/userinfo.email',
-  'https://www.googleapis.com/auth/gmail.readonly',
-];
+import { IEmailConnector } from './email-connector.interface';
 
 @Injectable()
-export class GmailProvider implements IEmailProvider {
+export class GmailConnector implements IEmailConnector {
   private oauthClient: OAuth2Client;
+
+  private static REQUIRED_SCOPES = [
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/gmail.readonly',
+  ];
 
   constructor() {
     this.oauthClient = new OAuth2Client({
@@ -32,7 +32,7 @@ export class GmailProvider implements IEmailProvider {
     return this.oauthClient.generateAuthUrl({
       access_type: 'offline',
       prompt: 'consent',
-      scope: REQUIRED_SCOPES,
+      scope: GmailConnector.REQUIRED_SCOPES,
       state: JSON.stringify({
         redirectUrl,
         organizationId,
@@ -72,8 +72,8 @@ export class GmailProvider implements IEmailProvider {
   }
 
   private validateScopesProvidedByUser(scopes: string[]) {
-    const hasAllRequiredScopes = REQUIRED_SCOPES.every((requiredScope) =>
-      scopes.includes(requiredScope),
+    const hasAllRequiredScopes = GmailConnector.REQUIRED_SCOPES.every(
+      (requiredScope) => scopes.includes(requiredScope),
     );
     if (!hasAllRequiredScopes) {
       throw new BadRequestException(

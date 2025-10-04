@@ -1,35 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { TEmailProvider } from '../types/email-account.types';
-import { EmailProviderFactory } from '../email-providers/email-provider.factory';
 import { EmailAccountRepository } from '../repositories/email-account.repository';
 import { HandleEmailAccountConnectionCallbackQueryDto } from '../validations/email-account.validation';
+import { TEmailPartner } from 'src/email-partner/types/email-partner.types';
+import { EmailConnectorFactory } from '../email-connectors/email-connector.factory';
 
 @Injectable()
 export class ConnectEmailAccountService {
   constructor(
-    private emailProviderFactory: EmailProviderFactory,
+    private emailConnectorFactory: EmailConnectorFactory,
     private emailAccountRepository: EmailAccountRepository,
   ) {}
 
   connect(
-    providerName: TEmailProvider,
+    partnerName: TEmailPartner,
     payload: { redirectUrl: string; organizationId: string; userId: string },
   ) {
-    const provider = this.emailProviderFactory.createProvider(providerName);
-    const connectionUrl = provider.getOAuthUrl(payload);
+    const connector = this.emailConnectorFactory.createConnector(partnerName);
+    const connectionUrl = connector.getOAuthUrl(payload);
     return connectionUrl;
   }
 
   async handleConnectionCallback(
-    providerName: TEmailProvider,
+    partnerName: TEmailPartner,
     code: string,
     state: HandleEmailAccountConnectionCallbackQueryDto['state'],
   ) {
-    const provider = this.emailProviderFactory.createProvider(providerName);
-    const credentials = await provider.getUserCredentials(code);
+    const connector = this.emailConnectorFactory.createConnector(partnerName);
+    const credentials = await connector.getUserCredentials(code);
     await this.emailAccountRepository.upsert(
       {
-        provider: providerName,
+        partner: partnerName,
         accessToken: credentials.accessToken,
         refreshToken: credentials.refreshToken,
         isActive: true,

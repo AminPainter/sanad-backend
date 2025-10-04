@@ -10,6 +10,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { CustomerModule } from './customer/customer.module';
 import { EmailAccountModule } from './email-account/email-account.module';
+import { EmailIngestionModule } from './email-ingestion/email-ingestion.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { EmailAccountModule } from './email-account/email-account.module';
     AuthModule,
     CustomerModule,
     EmailAccountModule,
+    EmailIngestionModule,
   ],
   providers: [
     {

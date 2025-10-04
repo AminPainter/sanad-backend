@@ -1,10 +1,9 @@
 import { z } from 'zod';
 import { createZodDto } from 'nestjs-zod';
-
-import { EmailProvider } from '../constants/email-account.constants';
+import { EmailPartner } from 'src/email-partner/constants/email-partner.constants';
 
 const ConnectEmailAccountParamsSchema = z.strictObject({
-  provider: z.enum([EmailProvider.GMAIL]),
+  partner: z.enum([EmailPartner.GMAIL]),
 });
 
 const ConnectEmailAccountBodySchema = z.strictObject({

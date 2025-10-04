@@ -56,7 +56,7 @@ CREATE TABLE "Customer" (
 CREATE TABLE "EmailAccount" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "organizationId" TEXT NOT NULL,
-    "provider" TEXT NOT NULL,
+    "partner" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "accessToken" TEXT NOT NULL,
     "refreshToken" TEXT NOT NULL,
