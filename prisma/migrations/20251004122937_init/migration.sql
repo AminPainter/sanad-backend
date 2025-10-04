@@ -1,7 +1,6 @@
 -- CreateTable
 CREATE TABLE "Organization" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "supportEmail" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
@@ -28,9 +27,11 @@ CREATE TABLE "Ticket" (
     "priority" TEXT NOT NULL DEFAULT 'MEDIUM',
     "assignedToId" TEXT,
     "customerId" TEXT,
+    "channel" TEXT NOT NULL,
     "firstResponseAt" DATETIME,
     "expectedResolutionAt" DATETIME,
     "resolvedAt" DATETIME,
+    "closedAt" DATETIME,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     CONSTRAINT "Ticket_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -69,8 +70,21 @@ CREATE TABLE "EmailAccount" (
     CONSTRAINT "EmailAccount_connectedById_fkey" FOREIGN KEY ("connectedById") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
--- CreateIndex
-CREATE UNIQUE INDEX "Organization_supportEmail_key" ON "Organization"("supportEmail");
+-- CreateTable
+CREATE TABLE "Message" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "ticketId" TEXT NOT NULL,
+    "authorUserId" TEXT,
+    "authorCustomerId" TEXT,
+    "plainTextContent" TEXT,
+    "htmlContent" TEXT,
+    "isInternal" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "Message_ticketId_fkey" FOREIGN KEY ("ticketId") REFERENCES "Ticket" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Message_authorUserId_fkey" FOREIGN KEY ("authorUserId") REFERENCES "User" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT "Message_authorCustomerId_fkey" FOREIGN KEY ("authorCustomerId") REFERENCES "Customer" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+);
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");

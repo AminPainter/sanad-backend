@@ -10,7 +10,6 @@ export class OrganizationRegistrationService {
       const organization = await tx.organization.create({
         data: {
           name: 'Test Organization',
-          supportEmail: 'support@test.com',
         },
       });
 

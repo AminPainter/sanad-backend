@@ -16,7 +16,6 @@ datasource db {
 
 model Organization {
   id            String         @id @default(cuid())
-  supportEmail  String         @unique
   name          String
   users         User[]
   Ticket        Ticket[]
@@ -36,6 +35,8 @@ model User {
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   emailAccounts  EmailAccount[] @relation("ConnectedByUserEmailAccounts")
+
+  messages Message[] @relation("UserMessages")
 }
 
 model Ticket {
@@ -55,9 +56,14 @@ model Ticket {
   customerId String?
   customer   Customer? @relation(fields: [customerId], references: [id])
 
+  channel TicketChannel
+
+  messages Message[]
+
   firstResponseAt      DateTime?
   expectedResolutionAt DateTime?
   resolvedAt           DateTime?
+  closedAt             DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -90,6 +96,8 @@ model Customer {
   updatedAt      DateTime     @updatedAt
 
   tickets Ticket[]
+
+  messages Message[] @relation("CustomerMessages")
 }
 
 enum EmailPartner {
@@ -112,4 +120,27 @@ model EmailAccount {
   updatedAt      DateTime     @updatedAt
 
   @@unique([organizationId, email])
+}
+
+enum TicketChannel {
+  EMAIL
+}
+
+model Message {
+  id       String @id @default(cuid())
+  ticketId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id])
+
+  authorUserId     String?
+  authorUser       User?     @relation("UserMessages", fields: [authorUserId], references: [id])
+  authorCustomerId String?
+  authorCustomer   Customer? @relation("CustomerMessages", fields: [authorCustomerId], references: [id])
+
+  plainTextContent String?
+  htmlContent      String?
+
+  isInternal Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
