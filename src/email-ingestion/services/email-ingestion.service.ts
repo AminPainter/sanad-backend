@@ -4,7 +4,10 @@ import { EmailReaderFactory } from 'src/email-reader/factories/email-reader.fact
 
 @Injectable()
 export class EmailIngestionService {
-  constructor(private emailAccountRepository: EmailAccountRepository) {}
+  constructor(
+    private emailAccountRepository: EmailAccountRepository,
+    private emailReaderFactory: EmailReaderFactory,
+  ) {}
 
   async ingest(organizationId: string) {
     const emailAccounts =
@@ -12,10 +15,13 @@ export class EmailIngestionService {
 
     const emailAccount = emailAccounts[0];
 
-    const emailReader = EmailReaderFactory.createReader(emailAccount.partner, {
-      accessToken: emailAccount.accessToken,
-      refreshToken: emailAccount.refreshToken,
-    });
+    const emailReader = this.emailReaderFactory.createReader(
+      emailAccount.partner,
+      {
+        accessToken: emailAccount.accessToken,
+        refreshToken: emailAccount.refreshToken,
+      },
+    );
 
     return emailReader.fetchUnreadEmails();
   }

@@ -5,7 +5,7 @@ import { TEmailPartner } from 'src/email-partner/types/email-partner.types';
 
 @Injectable()
 export class EmailReaderFactory {
-  static createReader(
+  createReader(
     integration: TEmailPartner,
     credentials: { accessToken: string; refreshToken: string },
   ) {
