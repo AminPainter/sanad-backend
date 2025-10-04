@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD, APP_PIPE } from '@nestjs/core';
-
-import { PrismaModule } from 'src/prisma/prisma.module';
-import { OrganizationRegistrationModule } from 'src/organization-registration/organization-registration.module';
-import { TicketModule } from 'src/ticket/ticket.module';
-import { AuthModule } from 'src/auth/auth.module';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ZodValidationPipe } from 'nestjs-zod';
-import { CustomerModule } from './customer/customer.module';
-import { EmailAccountModule } from './email-account/email-account.module';
-import { EmailIngestionModule } from './email-ingestion/email-ingestion.module';
+
+import { PrismaModule } from '@/shared/prisma/prisma.module';
+import { TicketModule } from '@/features/ticket/ticket.module';
+import { AuthModule } from '@/features/auth/auth.module';
+import { JwtAuthGuard } from '@/features/auth/guards/jwt-auth.guard';
+import { CustomerModule } from '@/features/customer/customer.module';
+import { EmailAccountModule } from '@/features/email-account/email-account.module';
+import { OrganizationRegistrationModule } from '@/use-cases/organization-registration/organization-registration.module';
+import { EmailIngestionModule } from '@/use-cases/email-ingestion/email-ingestion.module';
 
 @Module({
   imports: [
