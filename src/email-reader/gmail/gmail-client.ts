@@ -22,10 +22,8 @@ export class GmailClient {
     } = await this.gmail.users.messages.list({
       userId: 'me',
       maxResults: 10,
-      q: 'is:unread',
-      labelIds: ['INBOX'],
+      q: 'is:unread category:primary',
     });
-
     return emails || [];
   }
 
