@@ -53,8 +53,8 @@ model Ticket {
   assignedToId String?
   assignedTo   User?   @relation(fields: [assignedToId], references: [id])
 
-  customerId String?
-  customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
 
   channel TicketChannel
 

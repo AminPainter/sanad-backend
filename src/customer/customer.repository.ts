@@ -20,4 +20,19 @@ export class CustomerRepository {
       where: { organizationId },
     });
   }
+
+  async findOrCreateByEmail(email: string, organizationId: string) {
+    let customer = await this.prisma.customer.findFirst({
+      where: { email },
+    });
+    if (!customer) {
+      customer = await this.prisma.customer.create({
+        data: {
+          email,
+          organizationId,
+        },
+      });
+    }
+    return customer;
+  }
 }

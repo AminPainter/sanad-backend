@@ -1,17 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from 'generated/prisma';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateTicketDto } from './ticket.validation';
 
 @Injectable()
 export class TicketRepository {
   constructor(private prisma: PrismaService) {}
 
-  createTicket(data: CreateTicketDto, organizationId: string) {
+  create(data: Prisma.TicketCreateInput) {
     return this.prisma.ticket.create({
-      data: {
-        ...data,
-        organizationId,
-      },
+      data,
     });
   }
 

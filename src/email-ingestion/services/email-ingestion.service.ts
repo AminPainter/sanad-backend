@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { EmailAccountRepository } from 'src/email-account/repositories/email-account.repository';
 import { EmailReaderFactory } from 'src/email-reader/factories/email-reader.factory';
+import { CreateTicketFromEmailUseCase } from 'src/ticket/use-cases/create-ticket-from-email.use-case';
 
 @Injectable()
 export class EmailIngestionService {
   constructor(
     private emailAccountRepository: EmailAccountRepository,
     private emailReaderFactory: EmailReaderFactory,
+    private createTicketFromEmailUseCase: CreateTicketFromEmailUseCase,
   ) {}
 
   async ingest(organizationId: string) {
@@ -23,6 +25,12 @@ export class EmailIngestionService {
       },
     );
 
-    return emailReader.fetchUnreadEmails();
+    const unreadEmails = await emailReader.fetchUnreadEmails();
+
+    await Promise.all(
+      unreadEmails.map((email) =>
+        this.createTicketFromEmailUseCase.execute(email, organizationId),
+      ),
+    );
   }
 }

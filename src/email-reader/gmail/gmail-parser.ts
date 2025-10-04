@@ -2,7 +2,7 @@ import { gmail_v1 } from 'googleapis';
 import { ParseGmailApi } from 'gmail-api-parse-message-ts';
 import { DateTime } from 'luxon';
 
-import { IEmail } from '../interfaces/email.interface';
+import { IInboundEmail } from '../interfaces/inbound-email.interface';
 
 export class GmailParser {
   private parser: ParseGmailApi;
@@ -11,7 +11,7 @@ export class GmailParser {
     this.parser = new ParseGmailApi();
   }
 
-  parseEmail(gmailApiResponse: gmail_v1.Schema$Message): IEmail {
+  parseEmail(gmailApiResponse: gmail_v1.Schema$Message): IInboundEmail {
     const email = this.parser.parseMessage(gmailApiResponse);
 
     return {

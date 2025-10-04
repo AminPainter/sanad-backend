@@ -1,4 +1,4 @@
-export interface IEmail {
+export interface IInboundEmail {
   id: string;
   threadId: string;
   subject: string;

@@ -1,5 +1,5 @@
-import { IEmail } from './email.interface';
+import { IInboundEmail } from './inbound-email.interface';
 
 export interface IEmailReader {
-  fetchUnreadEmails(): Promise<IEmail[]>;
+  fetchUnreadEmails(): Promise<IInboundEmail[]>;
 }

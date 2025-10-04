@@ -3,9 +3,10 @@ import { EmailIngestionController } from './controllers/email-ingestion.controll
 import { EmailIngestionService } from './services/email-ingestion.service';
 import { EmailAccountModule } from 'src/email-account/email-account.module';
 import { EmailReaderModule } from 'src/email-reader/email-reader.module';
+import { TicketModule } from 'src/ticket/ticket.module';
 
 @Module({
-  imports: [EmailAccountModule, EmailReaderModule],
+  imports: [EmailAccountModule, EmailReaderModule, TicketModule],
   providers: [EmailIngestionService],
   controllers: [EmailIngestionController],
 })

@@ -26,7 +26,7 @@ CREATE TABLE "Ticket" (
     "status" TEXT NOT NULL DEFAULT 'OPEN',
     "priority" TEXT NOT NULL DEFAULT 'MEDIUM',
     "assignedToId" TEXT,
-    "customerId" TEXT,
+    "customerId" TEXT NOT NULL,
     "channel" TEXT NOT NULL,
     "firstResponseAt" DATETIME,
     "expectedResolutionAt" DATETIME,
@@ -36,7 +36,7 @@ CREATE TABLE "Ticket" (
     "updatedAt" DATETIME NOT NULL,
     CONSTRAINT "Ticket_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "Ticket_assignedToId_fkey" FOREIGN KEY ("assignedToId") REFERENCES "User" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT "Ticket_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+    CONSTRAINT "Ticket_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
