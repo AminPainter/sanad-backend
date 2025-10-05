@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Req } from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
 
 import { TicketService } from './ticket.service';
 

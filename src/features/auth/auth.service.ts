@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'generated/prisma';
 
+import { User } from 'generated/prisma';
 import { UserRepository } from '@/features/user/user.repository';
 
 @Injectable()

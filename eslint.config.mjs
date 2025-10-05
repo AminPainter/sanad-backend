@@ -1,34 +1,59 @@
-// @ts-check
-import eslint from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import { globalIgnores } from 'eslint/config';
+import importPlugin from 'eslint-plugin-import';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 
-export default tseslint.config(
+export default tseslint.config([
+  globalIgnores(['dist', 'node_modules']),
+
   {
-    ignores: ['eslint.config.mjs'],
-  },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  eslintPluginPrettierRecommended,
-  {
+    files: ['{src,apps,libs,test}/**/*.ts'],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommendedTypeChecked,
+      eslintPluginPrettierRecommended,
+    ],
     languageOptions: {
+      ecmaVersion: 2020,
       globals: {
         ...globals.node,
         ...globals.jest,
       },
-      sourceType: 'commonjs',
       parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
+        project: ['tsconfig.json'],
       },
     },
-  },
-  {
+
+    plugins: {
+      import: importPlugin,
+    },
+
+    settings: {
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+        },
+      },
+    },
+
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-unsafe-argument': 'warn'
+      '@typescript-eslint/no-unsafe-argument': 'warn',
+      'import/no-default-export': 'error',
+      'import/prefer-default-export': 'off',
+      'import/first': 'error',
+      'import/order': ['warn', { 'newlines-between': 'always' }],
+      'import/no-duplicates': 'warn',
+      'import/extensions': [
+        'error',
+        'ignorePackages',
+        {
+          js: 'never',
+          ts: 'never',
+        },
+      ],
     },
   },
-);
+]);

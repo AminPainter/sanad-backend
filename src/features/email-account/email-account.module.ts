@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+
 import { EmailAccountController } from './controllers/email-account.controller';
 import { ConnectEmailAccountService } from './services/connect-email-account.service';
 import { EmailAccountRepository } from './repositories/email-account.repository';

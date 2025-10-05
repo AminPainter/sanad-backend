@@ -1,6 +1,7 @@
 import { gmail_v1 } from 'googleapis';
 
 import { IEmailReader } from '../interfaces/email-reader.interface';
+
 import { GmailClient } from './gmail-client';
 import { GmailParser } from './gmail-parser';
 

@@ -1,9 +1,9 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 
+import { GmailReader } from '../gmail';
+
 import { EmailPartner } from '@/features/email-partner/constants/email-partner.constants';
 import { TEmailPartner } from '@/features/email-partner/types/email-partner.types';
-
-import { GmailReader } from '../gmail';
 
 @Injectable()
 export class EmailReaderFactory {
