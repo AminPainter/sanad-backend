@@ -9,8 +9,8 @@ import { AuthModule } from '@/features/auth/auth.module';
 import { JwtAuthGuard } from '@/features/auth/guards/jwt-auth.guard';
 import { CustomerModule } from '@/features/customer/customer.module';
 import { EmailAccountModule } from '@/features/email-account/email-account.module';
-import { OrganizationRegistrationModule } from '@/use-cases/organization-registration/organization-registration.module';
-import { EmailIngestionModule } from '@/use-cases/email-ticket-automation/email-ticket-automation.module';
+import { OrganizationRegistrationModule } from '@/features/organization-registration/organization-registration.module';
+import { EmailIngestionModule } from '@/features/email-ticket-automation/email-ticket-automation.module';
 
 @Module({
   imports: [
