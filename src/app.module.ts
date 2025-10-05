@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { ZodValidationPipe } from 'nestjs-zod';
 
 import { PrismaModule } from '@/shared/prisma/prisma.module';
@@ -11,6 +11,7 @@ import { CustomerModule } from '@/features/customer/customer.module';
 import { EmailAccountModule } from '@/features/email-account/email-account.module';
 import { OrganizationRegistrationModule } from '@/features/organization-registration/organization-registration.module';
 import { EmailIngestionModule } from '@/features/email-ticket-automation/email-ticket-automation.module';
+import { ZodValidationExceptionFilter } from '@/shared/error-handler/zod-exception.filter';
 
 @Module({
   imports: [
@@ -31,6 +32,10 @@ import { EmailIngestionModule } from '@/features/email-ticket-automation/email-t
     {
       provide: APP_PIPE,
       useClass: ZodValidationPipe,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: ZodValidationExceptionFilter,
     },
   ],
 })
